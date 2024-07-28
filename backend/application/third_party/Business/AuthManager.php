@@ -9,26 +9,32 @@ use Firebase\JWT\Key;
 class AuthManager
 {
     private $authDal;
+    private $ci;
     public function __construct(MysqlAuthDal $authDal)
     {
+        $this->ci=&get_instance();
         $this->authDal = $authDal;
     }
 
     public function user()
     {
         try {
-            if(!isset(getallheaders()['Authorization'])){
+            $token = $this->ci->input->get('token');
+            if(!isset($token)||$token ==''){
                 return array(
                     'status' => 'error',
                     'type' => 'header_error',
                     'message' => 'Yetkisiz erişim isteği hatalı'
                 );
             }
-            $token = getallheaders()['Authorization'];
+            
     
             $token_data = JWT::decode($token,new Key(JWT_SECRET,'HS256'));
-    
-            debug(($token_data));
+            return array(
+                'status' => 'ok',
+                'message' => $token_data
+            );
+            
         } catch (DomainException $th) {
             return array(
                 'status' => 'error',
@@ -43,6 +49,22 @@ class AuthManager
             );
         }
     }
+
+    public function is_authorize($user_id,$token){
+        try {
+            
+            $token_data = JWT::decode($token,new Key(JWT_SECRET,'HS256'));
+            return $token_data->user_id!==$user_id ? false : true;
+            
+        } catch (DomainException $th) {
+            return false;
+        }catch (ExpiredException $th) {
+            return false;
+        }
+    }
+    
+
+
 
     public function login()
     {

@@ -54,12 +54,9 @@ $route['default_controller'] = 'app';
 $route[API_PATH.'/todo/alltodos']['get'] = 'todo/index';
 $route[API_PATH.'/todo/addtodo']['post'] = 'todo/add';
 $route[API_PATH.'/todo/updatetodo/(:num)']['put'] = 'todo/update/$1';
-$route[API_PATH.'/todo/deletetodo/(:num)']['delete'] = 'todo/delete/$1';
+$route[API_PATH.'/todo/donetodo']['post'] = 'todo/done';
+$route[API_PATH.'/todo/deletetodo']['post'] = 'todo/delete';
 
-$route[API_PATH.'/item/list/(:num)']['get'] = 'item/index/$1';
-$route[API_PATH.'/item/additem']['post'] = 'item/add';
-$route[API_PATH.'/item/updateitem/(:num)']['put'] = 'item/update/$1';
-$route[API_PATH.'/item/deleteitem/(:num)']['delete'] = 'item/delete/$1';
 
 $route[API_PATH.'/auth/login']['post'] = 'auth/login';
 $route[API_PATH.'/auth/user']['get'] = 'auth/user';

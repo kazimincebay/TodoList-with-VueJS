@@ -12,6 +12,7 @@ class Todo extends CI_Controller {
 
 	public function __construct() {
 		parent ::__construct();
+		header('Access-Control-Allow-Origin: *');
 		$this->dbLayer = DB_LAYER.'TodoDal';
 		$this->todoDal = new $this->dbLayer();
 		$this->todoManager = new TodoManager($this->todoDal);
@@ -32,9 +33,14 @@ class Todo extends CI_Controller {
 		output($this->todoManager->update($id));
 	}
 
-	public function delete($id)
+	public function done()
 	{
-		output($this->todoManager->delete($id));
+		output($this->todoManager->done());
+	}
+
+	public function delete()
+	{
+		output($this->todoManager->delete());
 	}
 
 }
